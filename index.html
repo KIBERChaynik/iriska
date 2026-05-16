@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ириска — Продуктовый магазин в Калининграде</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E8732A;
+            --primary-dark: #C45A1A;
+            --primary-light: #FF9A56;
+            --secondary: #2D6A4F;
+            --secondary-light: #40916C;
+            --accent: #F4A261;
+            --bg-cream: #FFF8F0;
+            --bg-white: #FFFFFF;
+            --text-dark: #1A1A2E;
+            --text-mid: #4A4A5A;
+            --text-light: #7A7A8A;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.16);
+            --shadow-xl: 0 16px 60px rgba(0,0,0,0.2);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-dark);
+            background: var(--bg-cream);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-cream); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-sm);
+            padding: 10px 0;
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            z-index: 10;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(232, 115, 42, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(-10deg) scale(1.05);
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .header:not(.scrolled) .logo-text {
+            color: white;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--text-dark);
+            position: relative;
+            padding: 4px 0;
+            transition: color 0.3s;
+        }
+
+        .header:not(.scrolled) .nav a {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .header:not(.scrolled) .nav a::after {
+            background: var(--accent);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+            color: white !important;
+            padding: 10px 24px !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            transition: transform 0.3s, box-shadow 0.3s !important;
+            box-shadow: 0 4px 15px rgba(232, 115, 42, 0.3);
+        }
+
+        .nav-cta::after { display: none !important; }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 115, 42, 0.4) !important;
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 10;
+            padding: 8px;
+        }
+
+        .mobile-toggle span {
+            width: 28px;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .header:not(.scrolled) .mobile-toggle span {
+            background: white;
+        }
+
+        .mobile-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        .mobile-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://image.qwenlm.ai/public_source/29b47b4d-cf20-436c-b7eb-7464a048dad3/13f48576b-a9c8-4e0e-8caf-dbb93e0cc63c.png') center/cover no-repeat;
+            opacity: 0.5;
+            transition: transform 0.5s;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(26,26,46,0.85) 0%, rgba(45,45,68,0.7) 50%, rgba(232,115,42,0.3) 100%);
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.15;
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            padding-top: 80px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(232, 115, 42, 0.2);
+            border: 1px solid rgba(232, 115, 42, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .hero-badge i {
+            font-size: 12px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(42px, 6vw, 72px);
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.7;
+            margin-bottom: 36px;
+            max-width: 540px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 8px 30px rgba(232, 115, 42, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(232, 115, 42, 0.5);
+        }
+
+        .btn-outline {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 60px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-stat {
+            text-align: left;
+        }
+
+        .hero-stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .hero-stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .hero-image {
+            position: absolute;
+            right: -5%;
+            bottom: -5%;
+            width: 55%;
+            height: 110%;
+            z-index: 1;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            mask-image: linear-gradient(to left, transparent 0%, black 60%);
+            -webkit-mask-image: linear-gradient(to left, transparent 0%, black 60%);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SECTION STYLES ===== */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(232,115,42,0.1), rgba(244,162,97,0.1));
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 17px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ===== FEATURES ===== */
+        .features {
+            background: var(--bg-white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-cream);
+            border-radius: var(--radius-lg);
+            padding: 40px 28px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            background: white;
+        }
+
+        .feature-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .feature-icon.orange {
+            background: linear-gradient(135deg, rgba(232,115,42,0.15), rgba(232,115,42,0.05));
+            color: var(--primary);
+        }
+        .feature-icon.green {
+            background: linear-gradient(135deg, rgba(45,106,79,0.15), rgba(45,106,79,0.05));
+            color: var(--secondary);
+        }
+        .feature-icon.blue {
+            background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05));
+            color: #3B82F6;
+        }
+        .feature-icon.purple {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(139,92,246,0.05));
+            color: #8B5CF6;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== CATEGORIES ===== */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .category-card {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+            height: 380px;
+            cursor: pointer;
+            group: true;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .category-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .category-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26,26,46,0.9) 0%, rgba(26,26,46,0.2) 60%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 36px;
+            transition: background 0.4s;
+        }
+
+        .category-card:hover .category-overlay {
+            background: linear-gradient(to top, rgba(232,115,42,0.85) 0%, rgba(232,115,42,0.2) 60%, transparent 100%);
+        }
+
+        .category-overlay h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .category-overlay p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.5;
+            transition: color 0.4s;
+        }
+
+        .category-card:hover .category-overlay p {
+            color: rgba(255,255,255,0.95);
+        }
+
+        .category-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 6px 14px;
+            border-radius: 50px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            width: fit-content;
+        }
+
+        /* ===== SCHEDULE ===== */
+        .schedule {
+            background: var(--bg-white);
+        }
+
+        .schedule-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .schedule-info {
+            background: linear-gradient(135deg, var(--text-dark), #2d2d44);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .schedule-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(232,115,42,0.15) 0%, transparent 70%);
+        }
+
+        .schedule-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .schedule-info > p {
+            color: rgba(255,255,255,0.6);
+            font-size: 15px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .status-badge.open {
+            background: rgba(45, 106, 79, 0.2);
+            color: #52B788;
+            border: 1px solid rgba(82, 183, 136, 0.3);
+        }
+
+        .status-badge.closed {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-badge.open .status-dot {
+            background: #52B788;
+        }
+
+        .status-badge.closed .status-dot {
+            background: #EF4444;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .current-time {
+            font-size: 48px;
+            font-weight: 300;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 4px;
+            position: relative;
+        }
+
+        .current-date {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .schedule-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+        }
+
+        .schedule-contact a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 15px;
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s;
+        }
+
+        .schedule-contact a:hover {
+            background: rgba(232,115,42,0.15);
+            border-color: rgba(232,115,42,0.3);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .schedule-contact a i {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(232,115,42,0.2);
+            border-radius: 10px;
+            color: var(--primary-light);
+            font-size: 16px;
+        }
+
+        .schedule-table {
+            background: var(--bg-cream);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .schedule-table h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 28px;
+            color: var(--text-dark);
+        }
+
+        .schedule-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.3s;
+        }
+
+        .schedule-row:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-row:hover {
+            padding-left: 8px;
+        }
+
+        .schedule-row.today {
+            background: linear-gradient(135deg, rgba(232,115,42,0.08), rgba(244,162,97,0.05));
+            margin: 0 -16px;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            border-bottom: none;
+        }
+
+        .schedule-day {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .schedule-day-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+
+        .schedule-row.today .schedule-day-name {
+            color: var(--primary);
+        }
+
+        .today-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .schedule-time {
+            font-weight: 500;
+            color: var(--text-mid);
+            font-size: 15px;
+        }
+
+        .schedule-row.today .schedule-time {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* ===== CONTACT / MAP ===== */
+        .contact {
+            background: var(--bg-cream);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .contact-map {
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            height: 480px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .contact-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            display: flex;
+            gap: 20px;
+            align-items: start;
+            transition: all 0.3s;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .contact-card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .contact-card-icon.orange {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .contact-card-icon.green {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+            color: white;
+        }
+
+        .contact-card-icon.blue {
+            background: linear-gradient(135deg, #3B82F6, #60A5FA);
+            color: white;
+        }
+
+        .contact-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+        }
+
+        .contact-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .contact-card a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .contact-card a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* ===== PROMO BANNER ===== */
+        .promo {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+
+        .promo::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -100px;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .promo-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .promo h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 3vw, 40px);
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .promo p {
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            max-width: 500px;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            padding: 16px 36px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--text-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 64px 0 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .footer-brand .logo-text {
+            color: white;
+            font-size: 32px;
+        }
+
+        .footer-brand p {
+            margin-top: 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .footer-social a {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer h4 {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+            transform: translateX(4px);
+        }
+
+        .footer-newsletter p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: white;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--primary);
+        }
+
+        .newsletter-form button {
+            padding: 12px 24px;
+            border-radius: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: rgba(255,255,255,0.35);
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(232,115,42,0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(232,115,42,0.5);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255,255,255,0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                gap: 24px;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+
+            .nav.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .nav a {
+                color: var(--text-dark) !important;
+                font-size: 20px;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle.active span {
+                background: var(--text-dark) !important;
+            }
+
+            .hero-content {
+                padding-top: 100px;
+            }
+
+            .hero-stats {
+                gap: 24px;
+            }
+
+            .hero-stat-number {
+                font-size: 28px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-card {
+                height: 280px;
+            }
+
+            .schedule-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-map {
+                height: 300px;
+            }
+
+            .promo-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .section {
+                padding: 64px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .schedule-info {
+                padding: 32px;
+            }
+
+            .schedule-table {
+                padding: 24px;
+            }
+
+            .current-time {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">Ириска</span>
+            </a>
+            <nav class="nav" id="nav">
+                <a href="#features" onclick="closeMenu()">Преимущества</a>
+                <a href="#categories" onclick="closeMenu()">Категории</a>
+                <a href="#schedule" onclick="closeMenu()">График</a>
+                <a href="#contact" onclick="closeMenu()">Контакты</a>
+                <a href="tel:+79316078577" class="nav-cta" onclick="closeMenu()">
+                    <i class="fas fa-phone"></i> Позвонить
+                </a>
+            </nav>
+            <div class="mobile-toggle" id="mobileToggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-particles" id="particles"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Калининград, ул. Фрунзе, 17
+                </div>
+                <h1>Свежие продукты <span>каждый день</span></h1>
+                <p>Магазин «Ириска» — это свежие продукты, фермерские товары и всё необходимое для вашего стола. Мы заботимся о качестве, чтобы вы наслаждались вкусом.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-map-marker-alt"></i> Как нас найти
+                    </a>
+                    <a href="#schedule" class="btn btn-outline">
+                        <i class="fas fa-clock"></i> Часы работы
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">500+</div>
+                        <div class="hero-stat-label">Товаров в ассортименте</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">7 дней</div>
+                        <div class="hero-stat-label">Работаем без выходных</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number"></div>
+                        <div class="hero-stat-label">Любви к качеству</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section features" id="features">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">
+                    <i class="fas fa-star"></i> Почему мы
+                </div>
+                <h2 class="section-title">Наши преимущества</h2>
+                <p class="section-subtitle">Мы стремимся сделать каждый ваш визит приятным и удобным</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="feature-icon orange">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Свежие продукты</h3>
+                    <p>Ежедневные поставки свежих фруктов, овощей и зелени от проверенных поставщиков</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="feature-icon green">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>Фермерские товары</h3>
+                    <p>Натуральные молочные продукты, мясо и домашние заготовки от местных фермеров</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-3">
+                    <div class="feature-icon blue">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>Выгодные цены</h3>
+                    <p>Регулярные акции и скидки. Доступные цены на продукты высокого качества</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-4">
+                    <div class="feature-icon purple">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h3>Уютная атмосфера</h3>
+                    <p>Дружелюбный персонал и комфортная обстановка сделают покупки приятными</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section" id="categories">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">
+                    <i class="fas fa-shopping-basket"></i> Ассортимент
+                </div>
+                <h2 class="section-title">Категории товаров</h2>
+                <p class="section-subtitle">Широкий выбор продуктов на любой вкус и бюджет</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card reveal reveal-delay-1">
+                    <img src="https://image.qwenlm.ai/public_source/29b47b4d-cf20-436c-b7eb-7464a048dad3/1f3a34f60-a7c0-4739-90ae-d26f857f47ae.png" alt="Фрукты и овощи" loading="lazy">
+                    <div class="category-overlay">
+                        <div class="category-tag">
+                            <i class="fas fa-apple-whole"></i> Сезонное
+                        </div>
+                        <h3>Фрукты и овощи</h3>
+                        <p>Свежие сезонные фрукты, овощи и зелень каждый день</p>
+                    </div>
+                </div>
+                <div class="category-card reveal reveal-delay-2">
+                    <img src="https://image.qwenlm.ai/public_source/29b47b4d-cf20-436c-b7eb-7464a048dad3/1fbeb2fe7-a8dc-40c0-8ea0-ecd0f3d8dde4.png" alt="Хлеб и выпечка" loading="lazy">
+                    <div class="category-overlay">
+                        <div class="category-tag">
+                            <i class="fas fa-bread-slice"></i> Ежедневно
+                        </div>
+                        <h3>Хлеб и выпечка</h3>
+                        <p>Свежий хлеб, булочки и кондитерские изделия</p>
+                    </div>
+                </div>
+                <div class="category-card reveal reveal-delay-3">
+                    <img src="https://image.qwenlm.ai/public_source/29b47b4d-cf20-436c-b7eb-7464a048dad3/1e780e55b-2a90-4262-8d49-42237c01f842.png" alt="Молочные продукты" loading="lazy">
+                    <div class="category-overlay">
+                        <div class="category-tag">
+                            <i class="fas fa-cheese"></i> Фермерское
+                        </div>
+                        <h3>Молочные продукты</h3>
+                        <p>Молоко, йогурты, сыры и другие молочные продукты</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROMO -->
+    <section class="promo">
+        <div class="container">
+            <div class="promo-content">
+                <div>
+                    <h2>🎉 Приходите за свежими покупками!</h2>
+                    <p>Мы работаем для вас семь дней в неделю. Свежие продукты, выгодные цены и приятное обслуживание ждут вас.</p>
+                </div>
+                <a href="tel:+79316078577" class="btn btn-white">
+                    <i class="fas fa-phone"></i> +7 (931) 607-85-77
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="section schedule" id="schedule">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">
+                    <i class="fas fa-clock"></i> Время работы
+                </div>
+                <h2 class="section-title">График работы</h2>
+                <p class="section-subtitle">Мы работаем без выходных, чтобы вы всегда могли найти свежие продукты</p>
+            </div>
+            <div class="schedule-wrapper">
+                <div class="schedule-info reveal reveal-delay-1">
+                    <h3> Магазин «Ириска»</h3>
+                    <p>ул. Фрунзе, 17, Калининград</p>
+                    <div class="status-badge" id="statusBadge">
+                        <span class="status-dot"></span>
+                        <span id="statusText">Загрузка...</span>
+                    </div>
+                    <div class="current-time" id="currentTime">--:--</div>
+                    <div class="current-date" id="currentDate">--</div>
+                    <div class="schedule-contact">
+                        <a href="tel:+79316078577">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <div style="font-weight:600; color:white;">+7 (931) 607-85-77</div>
+                                <div style="font-size:12px; color:rgba(255,255,255,0.4);">Показать телефон</div>
+                            </div>
+                        </a>
+                        <a href="https://yandex.ru/maps/?text=Калининград+ул+Фрунзе+17" target="_blank">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <div style="font-weight:600; color:white;">Показать на карте</div>
+                                <div style="font-size:12px; color:rgba(255,255,255,0.4);">Маршрут до магазина</div>
+                            </div>
+                        </a>
+                        <a href="https://2gis.ru/kaliningrad/geo/70000001000000000?m=20.493534%2C54.713089" target="_blank">
+                            <i class="fas fa-directions"></i>
+                            <div>
+                                <div style="font-weight:600; color:white;">Показать входы</div>
+                                <div style="font-size:12px; color:rgba(255,255,255,0.4);">Навигация к магазину</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="schedule-table reveal reveal-delay-2">
+                    <h3>📅 Расписание</h3>
+                    <div id="scheduleList">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">
+                    <i class="fas fa-envelope"></i> Связаться с нами
+                </div>
+                <h2 class="section-title">Контакты</h2>
+                <p class="section-subtitle">Мы всегда рады видеть вас в нашем магазине!</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-map reveal reveal-delay-1">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2442.0!2d20.4935!3d54.7131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z0KjQv9C-0LrRg9C50LjQuSDQmtC-0LLRgdC60L7Qs9Cw0L3QsCwgMTcsINCRgNCw0YHQv9GD0LHQu9Cw0Y8!5e0!3m2!1sru!2sru!4v1700000000000!5m2!1sru!2sru" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-card reveal reveal-delay-1">
+                        <div class="contact-card-icon orange">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Адрес</h4>
+                            <p>ул. Фрунзе, 17<br>Калининград, Россия</p>
+                        </div>
+                    </div>
+                    <div class="contact-card reveal reveal-delay-2">
+                        <div class="contact-card-icon green">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Телефон</h4>
+                            <p><a href="tel:+79316078577">+7 (931) 607-85-77</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-card reveal reveal-delay-3">
+                        <div class="contact-card-icon blue">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4>Часы работы</h4>
+                            <p>Пн–Пт: 10:00–20:00<br>Сб–Вс: 10:00–18:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" style="margin-bottom: 8px;">
+                        <div class="logo-icon">🍬</div>
+                        <span class="logo-text">Ириска</span>
+                    </a>
+                    <p>Продуктовый магазин в Калининграде. Свежие продукты, фермерские товары и всё необходимое для вашего стола каждый день.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="VK"><i class="fab fa-vk"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Навигация</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Преимущества</a></li>
+                        <li><a href="#categories">Категории</a></li>
+                        <li><a href="#schedule">График работы</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Информация</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">О магазине</a></li>
+                        <li><a href="#">Доставка</a></li>
+                        <li><a href="#">Акции</a></li>
+                        <li><a href="#">Вакансии</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Будьте в курсе</h4>
+                    <p>Подпишитесь на новости об акциях и поступлениях свежих продуктов</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Готово!'; this.querySelector('input').value='';">
+                        <input type="email" placeholder="Ваш email" required>
+                        <button type="submit">OK</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Магазин «Ириска». Все права защищены.</span>
+                <span>ул. Фрунзе, 17, Калининград</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Наверх">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // ===== HEADER SCROLL =====
+        const header = document.getElementById('header');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY > 50;
+            header.classList.toggle('scrolled', scrolled);
+            backToTop.classList.toggle('visible', window.scrollY > 500);
+        });
+
+        // ===== MOBILE MENU =====
+        function toggleMenu() {
+            const nav = document.getElementById('nav');
+            const toggle = document.getElementById('mobileToggle');
+            nav.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('nav').classList.remove('active');
+            document.getElementById('mobileToggle').classList.remove('active');
+        }
+
+        // ===== PARTICLES =====
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 60 + 20;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = (Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // ===== SCHEDULE =====
+        const daysOfWeek = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+        const shortDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+
+        const scheduleData = [
+            { day: 'Понедельник', short: 'Пн', time: '10:00–20:00', dayIndex: 1 },
+            { day: 'Вторник', short: 'Вт', time: '10:00–20:00', dayIndex: 2 },
+            { day: 'Среда', short: 'Ср', time: '10:00–20:00', dayIndex: 3 },
+            { day: 'Четверг', short: 'Чт', time: '10:00–20:00', dayIndex: 4 },
+            { day: 'Пятница', short: 'Пт', time: '10:00–20:00', dayIndex: 5 },
+            { day: 'Суббота', short: 'Сб', time: '10:00–18:00', dayIndex: 6 },
+            { day: 'Воскресенье', short: 'Вс', time: '10:00–18:00', dayIndex: 0 }
+        ];
+
+        function updateSchedule() {
+            const now = new Date();
+            const todayIndex = now.getDay();
+            const listEl = document.getElementById('scheduleList');
+            listEl.innerHTML = '';
+
+            scheduleData.forEach((item, i) => {
+                const isToday = item.dayIndex === todayIndex;
+                const row = document.createElement('div');
+                row.className = 'schedule-row' + (isToday ? ' today' : '');
+                row.innerHTML = `
+                    <div class="schedule-day">
+                        <span class="schedule-day-name">${item.day}</span>
+                        ${isToday ? '<span class="today-badge">Сегодня</span>' : ''}
+                    </div>
+                    <span class="schedule-time">${item.time}</span>
+                `;
+                listEl.appendChild(row);
+            });
+
+            // Update status
+            const currentHour = now.getHours();
+            const currentMin = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMin;
+
+            const schedule = scheduleData.find(s => s.dayIndex === todayIndex);
+            const [openStr, closeStr] = schedule.time.split('–');
+            const [openH, openM] = openStr.split(':').map(Number);
+            const [closeH, closeM] = closeStr.split(':').map(Number);
+            const openTime = openH * 60 + openM;
+            const closeTime = closeH * 60 + closeM;
+
+            const isOpen = currentTime >= openTime && currentTime < closeTime;
+
+            const badge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+
+            if (isOpen) {
+                badge.className = 'status-badge open';
+                const closeMinutes = closeTime - currentTime;
+                const closeHrs = Math.floor(closeMinutes / 60);
+                const closeMins = closeMinutes % 60;
+                statusText.textContent = `Открыто до ${closeStr} (ещё ${closeHrs}ч ${closeMins}м)`;
+            } else {
+                badge.className = 'status-badge closed';
+                if (currentTime < openTime) {
+                    statusText.textContent = `Откроется в ${openStr}`;
+                } else {
+                    const tomorrowIndex = (todayIndex + 1) % 7;
+                    const tomorrow = scheduleData.find(s => s.dayIndex === tomorrowIndex);
+                    statusText.textContent = `Закрыто. Откроется завтра в ${tomorrow.time.split('–')[0]}`;
+                }
+            }
+
+            // Update clock
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('currentTime').textContent = `${hours}:${mins}:${secs}`;
+
+            // Update date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('ru-RU', options);
+        }
+
+        updateSchedule();
+        setInterval(updateSchedule, 1000);
+
+        // ===== SCROLL REVEAL =====
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
